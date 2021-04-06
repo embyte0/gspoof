@@ -1,0 +1,218 @@
+/*
+ * This file is part of Gspoof-3 (a console/gtk+ tcp/ip packet forger)
+ *
+ * $Name: README $
+ * $Version: 3.2 $
+ * $Date: 2003/12/22 16:30:03 $
+ * $Author: Embyte <embyte@madlab.it> $
+ * $Copyright: Copyright (C) 2002-2003 by embyte $
+ * $License: This software is under GPL version 2 of license $
+ *
+ */
+
+
+WHAT IS GSPOOF?:
+
+Gspoof is a Console and GTK+ [1] program written in C language which
+makes easier and accurate the building and the sending of TCP packets 
+with a data-payload or not.
+
+It works in two different mode:
+
+- The 1st (the standard mode) allow "only" adjustment of IP and TCP
+  headers.
+  Exactly:
+  
+  source IP address (if possible is autodetect from available interface)
+  destination IP address
+  TTL time to live (default value is 64)
+  ID (a 16 byte random generate value)
+  TOS type of service (automagically calculated from ECN parameters)
+  
+  source port
+  destination port
+  control flags (you can specify more flags toghether)
+  sequence number (a 32 byte random generate value)
+  acknowledgement number (a 32 byte random generate value)
+  window size (default vale is 32767)
+  urgent pointer (a 16 byte random generate value)
+
+  Others TCP/IP fields are automatically completated by Gspoof [4]
+  
+  Ethernet frame (ETH Header) is build by Kernel [4]
+  
+- The 2nd mode (Link Layer mode) is choosed selecting "Full mode" item
+  from "Options" menu and permit to modify ethernet header too:
+  
+  interface (if it's available a not-loopback interface, it's autotedect)
+  source MAC address (if possible is autodetect from available interface)
+  destination MAC address
+  ethernet type (IP or loopback for loopback test)
+ 
+  Other Ethernet fields are automatically completated by Gspoof
+  
+With Gspoof you can (in both way):
+
+- Set ECE and/or CWR flags and generate TOS from ECN window vales (see 
+  below)
+- Include a max 128 string long in TCP payload (use "Add data" item from
+  "Options" menu)
+- Send a flood-set of packets defining interval (delay) and number
+  (use "Send multi packets" from "Options menu)
+- Retrive default values and generate new random values (use "New" item 
+  from "File" menu)
+- Read credits, enable debug mode or quit (see menu :P)
+
+
+
+NOTE FOR CONGESTION NOTIFCATION SUPPORT:
+You can find this feature from version 3.2. Two newer flags has been
+added to TCP header: ECE and CWR. Type Of Service (TOS) is automagically
+calculated from 3 parameters: the DIFFERENTITATED SERVICE (0x02 for
+default), ECN-CAPABLE TRANSPORT and ECN-CE (together set to 0 by default).
+From "console mode" you can reach this parameters from 2.5-2.7 menu 
+items; from "gtk mode" select "ECN support" item from "Options" menu to
+popup the requested window.
+
+
+
+USING GSPOOF IN "CONSOLE MODE":
+
+Run it with 'gspoof -c' or simply 'gspoof' if you have compile without
+gtk+ support. Type 'help' for a simple online help :-)
+
+
+
+AVAILABILITY:
+
+- Officiale website: 
+   http://gspoof.sourceforge.net
+- Direct link to current version:
+   http://gspoof.sourceforge.net/src/gspoof-current.tar.gz 
+- Sourceforge repository: 
+   http://sourceforge.net/project/showfiles.php?group_id=59558
+
+
+
+REQUIREMENTS:
+
+- libnet-1.1.1 <http://www.packetfactory.net/libnet/> [3]
+- GTK+-2.x <http://www.gtk.org> [1] (OPTIONAL)
+
+
+
+TESTED ON:
+
+- linux 2.4
+- freebsd 4.x and 5
+- OSX
+
+
+
+INSTALLING:
+
+$ tar xvfz gspoof-x.y.z (where x.y.z is release info)
+$ cd gspoof-x.y.z 
+$ ./configure (--help for accepted arguments)
+$ make (make help for accepted commands)
+$ su root
+# make install
+
+
+
+UN-INSTALLING:
+
+# make distclean
+
+
+
+FAQ (FOR PROBLEMS):
+
+1) A: Configure don't found libnet library.
+   R: Install libnet-1.1.1 (the latest one), if Configure doesn't 
+      work specify correct prefix from command line. See example:
+      $ locate libnet.a
+      /opt/lib/libnet.a
+      $ ./configure (wrong becouse libnet don't stay in /usr but /opt!)
+      checking for /usr/lib/libnet.a... no
+      configure: error:
+      Libnet-1.1.1 Packet Shaping Library is required!
+      Verify to have installed it and pass --with-libnet-prefix to configure.
+      $ ./configure --with-libnet-prefix=/opt (correct)
+      checking for /opt/lib/libnet.a... yes
+      checking for libnet_name2addr4 in -lnet... yes
+      [cut]
+      CPPFLAGS ...... : -I/opt/include
+      LDFLAGS ....... : -L/opt/lib
+
+2) A: I can't see Gspoof icon
+   R: Install Gspoof in /usr or /usr/local prefix.
+
+3) A: I'm running X-Windows from user and I can't run Gspoof from root:
+      [~]$ su -
+      Password:
+      root:~# gspoof
+      [cut]
+      (gspoof:2082): Gtk-WARNING **: cannot open display:
+   R: Root can't connect to user X server. Add localhost to xhost
+      access control list:
+      [~]$ xhost +127.0.0.1
+      127.0.0.1 being added to access control list
+      [~]$ su -
+      Password:
+      root:~# export DISPLAY=127.0.0.1:0 
+      root:~# gspoof
+
+
+
+AUTHOR:
+
+I'm the only author and manteiner so report anything to me 
+with an email: embyte@madlab.it, embyte@bglug.it
+
+
+
+BUGS:
+
+I think many :-) Please send me an email if u found someone!
+
+
+
+LICENSE:
+
+See LICENSE file
+
+
+
+REFERENCE:
+
+TCP / IP Illustrated Volume 1, The Protocols W.Richard Stevens 
+A search on google like "TCP/IP Protcolol Suite" or in the RFC archive.
+
+
+
+NOTES:
+
+[1]: GTK (GIMP Toolkit) is a library for creating graphical user
+interfaces.It 's called the GIMP toolkit because it was originally
+written for developing the GNU Image Manipulation Program (GIMP), but GTK
+has now been used in a large number of software projects, including the 
+GNU Network Object Model Environment (GNOME) project.
+GTK is built on top of GDK (GIMP Drawing Kit) which is basically a wrapper 
+around the low-level functions for accessing the underlying windowing 
+functions (Xlib in the case of the X windows system), and gdk-pixbuf, 
+a library for client-side image manipulation.
+
+[3]: Libnet (Packet Shaping Library)
+The  Network Library provides a simple API for commonly used
+low-level network functions (mainly packet injection).  
+Using libnet, it is easy to build and write arbitrary network
+packets.  It provides a portable  framework  for  low-level  
+network  packet writing and handling (use libnet in conjunction with 
+libpcap and you can write some really cool stuff).  
+Libnet includes packet creation at the IP layer and at the link 
+layer as  well as a host of supplementary and complementary functionality.
+       
+[4]: Depending on Operating System some field can be adjusted by Kernel.
+For example if you specify 0.0.0.0 as source address (in standard mode)
+Linux Kernel v. 2.4 modify it with real interface address.

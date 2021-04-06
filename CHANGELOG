@@ -1,0 +1,66 @@
+/*
+ * This file is part of Gspoof-3 (a console/gtk+ tcp/ip packet forger)
+ *
+ * $Name: CHANGELOG $
+ * $Version: 3.2 $
+ * $Date: 2003/12/22 16:30:03 $
+ * $Author: Embyte <embyte@madlab.it> $
+ * $Copyright: Copyright (C) 2002-2003 by embyte $
+ * $License: This software is under GPL version 2 of license $
+ *
+ */
+
+
+3.2 (2003-12-22)
+- Added Explicit Congestion Notification support (thanks to <ansanto@interfree.it>)
+- Fixed a bug in ltostr()
+- Cleaned code in console.c
+- Fixed some tips
+
+
+3.1 (2003-09-28)
+
+- Substituted not portable function atoll() with strtoll()
+- Tested on OSX (Ray Slakinski <ray@sdf1.net>) and FreeBSD
+- Fixed many tips
+- Corrected some oversigths for restore default command
+- Add --with-libnet-prefix=DIR input for configure
+
+
+3.0 (2003-08-24)
+
+- Ported to GTK+ 2.x 
+- New interface
+- Discarded readline library support
+- Changed pseudo-flood options: durate->number, break->delay
+- New installation engine
+
+
+2.1.1 (2002-09-24)
+
+- Added libreadline support in console.c
+- Corrected some oversights in console.c
+
+
+2.1 (2002-08-27)
+
+- Ported to libnet-1.1.x
+- Fixed some memory problems using Valgrind v. 1.0.0 (thanks to Marco Cova)
+- Corrected old-bugs 
+- Attached TODO and IMPORTANT files to package 
+
+
+2.0 (2002-08-22)
+     
+- Added *console support*, now is possible doing the same things from shell!     
+- And so Gspoof compile also without GTK library, this is a powerful thing :-)
+- Correct some important bug and cleaned code
+- Commond functions has been moved to common.c source file
+- Adjusted Makefile
+- Attached CHANGELOG and VERSION files to package
+- Remain a few bugs to correct
+
+
+1.0b (2002-08-08)
+
+- First public release
